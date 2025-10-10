@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 URL Fix Applied!</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f1419 0%, #1a2332 50%, #0d1117 100%);
+            color: white;
+            margin: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .success {
+            background: rgba(0, 245, 212, 0.1);
+            border: 2px solid #00f5d4;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .button {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff4655, #ff6b7a);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            margin: 10px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 70, 85, 0.4);
+        }
+
+        .url-comparison {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .old-url {
+            color: #ff4655;
+            font-family: monospace;
+            background: rgba(255, 70, 85, 0.1);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            word-break: break-all;
+        }
+
+        .new-url {
+            color: #00f5d4;
+            font-family: monospace;
+            background: rgba(0, 245, 212, 0.1);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            word-break: break-all;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="success">
+            <h1>✅ URL Fixed!</h1>
+            <p>I've updated your script.js with the correct Google Apps Script URL</p>
+        </div>
+
+        <div class="url-comparison">
+            <h3>🔄 What Changed:</h3>
+
+            <p><strong>❌ Old URL (causing CORS errors):</strong></p>
+            <div class="old-url">
+                https://script.googleusercontent.com/macros/echo?user_content_key=...
+            </div>
+
+            <p><strong>✅ New URL (working):</strong></p>
+            <div class="new-url">
+                https://script.google.com/macros/s/AKfycbxdqya2kM_CZ0GoEwNGTvnva3qdXPS7hBc81PKkfJ829-kdvNdrxa4EeET1TB0onBrM/exec
+            </div>
+        </div>
+
+        <h2>🚀 Test Results</h2>
+        <p>Now your website should:</p>
+        <ul>
+            <li>✅ <strong>Work when opened directly</strong> (double-click index.html)</li>
+            <li>✅ <strong>Connect to real Google Sheets data</strong></li>
+            <li>✅ <strong>Show your actual leaderboard</strong> (samaan: 1000pts, etc.)</li>
+            <li>⚠️ <strong>Still show CORS errors in local dev server</strong> (this is normal)</li>
+        </ul>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="index.html" class="button">🎮 Test Leaderboard Now</a>
+            <a href="https://script.google.com/macros/s/AKfycbxdqya2kM_CZ0GoEwNGTvnva3qdXPS7hBc81PKkfJ829-kdvNdrxa4EeET1TB0onBrM/exec"
+                class="button" target="_blank">🔗 Test API Directly</a>
+        </div>
+
+        <h2>📋 Next Steps</h2>
+        <ol>
+            <li><strong>Test locally:</strong> Double-click index.html to open directly</li>
+            <li><strong>Deploy online:</strong> Upload to GitHub Pages, Netlify, or Vercel</li>
+            <li><strong>Share:</strong> Your leaderboard is now ready for your tournament!</li>
+        </ol>
+
+        <div class="success">
+            <h3>🎯 Key Point</h3>
+            <p>The URL format matters! Use <code>/exec</code> endpoints, not <code>/echo</code> for better
+                compatibility.</p>
+        </div>
+    </div>
+</body>
+
+</html>

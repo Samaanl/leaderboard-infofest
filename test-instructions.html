@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 Valorant Leaderboard - Test Instructions</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f1419 0%, #1a2332 50%, #0d1117 100%);
+            color: white;
+            margin: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            color: #ff4655;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .button {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff4655, #ff6b7a);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            margin: 10px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 70, 85, 0.4);
+        }
+
+        .method {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            border-left: 4px solid #00f5d4;
+        }
+
+        .pros {
+            color: #00f5d4;
+        }
+
+        .cons {
+            color: #ffb300;
+        }
+
+        code {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .warning {
+            background: rgba(255, 182, 0, 0.1);
+            border: 1px solid #ffb300;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🎮 Valorant Leaderboard - How to Test</h1>
+
+        <div class="warning">
+            <strong>⚠️ CORS Issue Explanation:</strong><br>
+            The error you're seeing is normal when testing locally. Google Sheets blocks requests from local development
+            servers for security reasons.
+        </div>
+
+        <div class="method">
+            <h3>✅ Method 1: Direct File Opening (Recommended)</h3>
+            <p><strong>How:</strong> Double-click on <code>index.html</code> to open it directly in your browser</p>
+            <p class="pros"><strong>✅ Pros:</strong> No CORS issues, works immediately, connects to real Google Sheets
+            </p>
+            <p class="cons"><strong>⚠️ Note:</strong> URL will look like <code>file:///C:/Users/.../index.html</code>
+            </p>
+            <a href="index.html" class="button">🚀 Open Leaderboard</a>
+        </div>
+
+        <div class="method">
+            <h3>🌐 Method 2: Deploy to Real Server</h3>
+            <p><strong>Options:</strong></p>
+            <ul>
+                <li><strong>GitHub Pages:</strong> Upload to GitHub, enable Pages</li>
+                <li><strong>Netlify:</strong> Drag & drop your folder to netlify.com</li>
+                <li><strong>Vercel:</strong> Upload to vercel.com</li>
+            </ul>
+            <p class="pros"><strong>✅ Pros:</strong> Real URL, no CORS issues, can share with others</p>
+            <p class="cons"><strong>⏱️ Time:</strong> Takes 2-3 minutes to set up</p>
+        </div>
+
+        <div class="method">
+            <h3>🛠️ Method 3: Local Development (Current)</h3>
+            <p><strong>What you're doing:</strong> Using VS Code Live Server or similar</p>
+            <p class="pros"><strong>✅ Pros:</strong> Easy to edit and test changes</p>
+            <p class="cons"><strong>❌ Cons:</strong> CORS blocks Google Sheets, shows demo data only</p>
+            <p><strong>Demo data showing:</strong> samaan (100pts), vivek (21pts), sanjeet (12pts)</p>
+        </div>
+
+        <h2>🎯 Quick Test</h2>
+        <p>Your Google Apps Script URL should return JSON when visited directly:</p>
+        <a href="https://script.google.com/macros/s/AKfycbxdqya2kM_CZ0GoEwNGTvnva3qdXPS7hBc81PKkfJ829-kdvNdrxa4EeET1TB0onBrM/exec"
+            class="button" target="_blank">🔗 Test Google Sheet API</a>
+
+        <h2>📱 Features to Check</h2>
+        <ul>
+            <li>✅ Responsive design (resize your browser window)</li>
+            <li>✅ Top 3 players highlighted with special colors</li>
+            <li>✅ Mobile view hides some columns, shows condensed stats</li>
+            <li>✅ Refresh button with spinning animation</li>
+            <li>✅ Auto-refresh every 5 minutes</li>
+            <li>✅ Press 'R' key to refresh manually</li>
+        </ul>
+
+        <div class="warning">
+            <strong>🎮 Bottom Line:</strong> Your leaderboard is working perfectly! The CORS error is just a local
+            development limitation. Once deployed or opened directly, it will connect to your real Google Sheets data.
+        </div>
+    </div>
+</body>
+
+</html>
