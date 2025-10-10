@@ -1,6 +1,6 @@
 // Configuration - Replace this URL with your Google Apps Script Web App URL
 const GOOGLE_SHEET_URL =
-  "https://script.google.com/macros/s/AKfycbxdqya2kM_CZ0GoEwNGTvnva3qdXPS7hBc81PKkfJ829-kdvNdrxa4EeET1TB0onBrM/exec";
+  "https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLjnKVq9q7G1v2y6EN95GEuuAv85pPIONyZIzfN7bBZXDcZq4uzr834bSkUCZmO3l0kfLsSxIVJXrf6Ds2PNpOuYQs6cJhk33cdt39K3loIL1SvsJlvyAvJftc7ZDkUQ50OExXoVTMHs5MXDgiVGAKmaw4_aT-B8E5fMmZrapNuqbGl1pbtMUEzIdG5AGiUz_sujbhe68iSpBf5OiYom5aIubKboZz0l91f3GVIXOvY_-aZ5wBT5U6u-TMI8NRudMLz8gR4ZUsu2dAqqT0B1Qh2NF2KrUw&lib=MgeeG7CSCFi0Jqk725Dh_uz--t4C_gfAW";
 
 // DOM elements
 const loadingElement = document.getElementById("loading");
