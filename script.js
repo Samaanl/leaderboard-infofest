@@ -1,29 +1,22 @@
-// Configuration - Replace this URL with your Google Apps Script Web App URL
 const GOOGLE_SHEET_URL =
   "https://script.google.com/macros/s/AKfycbwaSsuexs6ll05BQfEmoTiCqFWn_L-kyRx9XjtueCPvTovYcBkwysE-BLrMXR0jnI1e/exec";
 
-// DOM elements
 const loadingElement = document.getElementById("loading");
 const leaderboardElement = document.getElementById("leaderboard");
 const errorElement = document.getElementById("error-message");
 const leaderboardBody = document.getElementById("leaderboard-body");
 const lastUpdatedElement = document.getElementById("last-updated");
 
-// Load leaderboard data
 async function loadLeaderboard() {
   try {
-    // Show loading state
     showLoading();
 
-    // Add rotation animation to refresh button
     const refreshIcon = document.querySelector(".refresh-btn i");
     refreshIcon.style.animation = "spin 1s linear infinite";
 
-    // Try different methods to fetch data
     let data;
 
     try {
-      // Method 1: Simple fetch with cache busting
       const response = await fetch(GOOGLE_SHEET_URL + "?v=" + Date.now());
 
       if (response.ok) {
@@ -40,25 +33,27 @@ async function loadLeaderboard() {
         "💡 Solution: Open the website directly (double-click index.html) or deploy to a real server."
       );
 
-      // Show demo data instead
       throw new Error("CORS blocked - using demo data");
     }
 
-    // Sort data by points (descending) and then by wins (descending)
-    const sortedData = data.sort((a, b) => {
+    // Filter out rows with blank/empty player names
+    const filteredData = data.filter((player) => {
+      return (
+        player["Player Name"] && player["Player Name"].toString().trim() !== ""
+      );
+    });
+
+    const sortedData = filteredData.sort((a, b) => {
       if (b.Points !== a.Points) {
         return b.Points - a.Points;
       }
       return b.Wins - a.Wins;
     });
 
-    // Populate the leaderboard
     populateLeaderboard(sortedData);
 
-    // Update last updated time
     updateLastUpdatedTime();
 
-    // Show success state
     showLeaderboard();
   } catch (error) {
     console.error("Error fetching leaderboard data:", error);
@@ -69,43 +64,35 @@ async function loadLeaderboard() {
       "📋 To fix this: Either open index.html directly or deploy to a web server"
     );
 
-    // Fall back to demo data when Google Sheets fails
     loadDemoData();
   } finally {
-    // Remove refresh button animation
     const refreshIcon = document.querySelector(".refresh-btn i");
     refreshIcon.style.animation = "";
   }
 }
 
-// JSONP fallback method
 function fetchWithJSONP(url) {
   return new Promise((resolve, reject) => {
     const callbackName = "jsonp_callback_" + Math.round(100000 * Math.random());
 
-    // Create script element
     const script = document.createElement("script");
     script.src =
       url + (url.indexOf("?") >= 0 ? "&" : "?") + "callback=" + callbackName;
 
-    // Set up callback
     window[callbackName] = function (data) {
       delete window[callbackName];
       document.body.removeChild(script);
       resolve(data);
     };
 
-    // Handle errors
     script.onerror = function () {
       delete window[callbackName];
       document.body.removeChild(script);
       reject(new Error("JSONP request failed"));
     };
 
-    // Add script to page
     document.body.appendChild(script);
 
-    // Timeout after 10 seconds
     setTimeout(() => {
       if (window[callbackName]) {
         delete window[callbackName];
@@ -116,46 +103,65 @@ function fetchWithJSONP(url) {
   });
 }
 
-// Show loading state
 function showLoading() {
   loadingElement.style.display = "flex";
   leaderboardElement.style.display = "none";
   errorElement.style.display = "none";
 }
 
-// Show leaderboard
 function showLeaderboard() {
   loadingElement.style.display = "none";
   leaderboardElement.style.display = "block";
   errorElement.style.display = "none";
 }
 
-// Show error state
 function showError() {
   loadingElement.style.display = "none";
   leaderboardElement.style.display = "none";
   errorElement.style.display = "flex";
 }
 
-// Populate leaderboard table
 function populateLeaderboard(data) {
   leaderboardBody.innerHTML = "";
 
+  let currentRank = 1;
+  let previousPoints = null;
+  let previousWins = null;
+  let playersWithSameRank = 0;
+
   data.forEach((player, index) => {
-    const rank = index + 1;
-    const row = createPlayerRow(rank, player);
+    // Handle tied rankings
+    if (previousPoints !== null) {
+      if (player.Points === previousPoints && player.Wins === previousWins) {
+        // Same rank as previous player (tie)
+        playersWithSameRank++;
+      } else {
+        // Different score, advance rank
+        currentRank += playersWithSameRank + 1;
+        playersWithSameRank = 0;
+      }
+    }
+
+    const row = createPlayerRow(currentRank, player, index);
     leaderboardBody.appendChild(row);
+
+    previousPoints = player.Points;
+    previousWins = player.Wins;
   });
 }
 
-// Create a player row
 function createPlayerRow(rank, player) {
   const row = document.createElement("tr");
 
-  // Calculate win rate
   const winRate =
     player["Matches Played"] > 0
       ? Math.round((player.Wins / player["Matches Played"]) * 100)
+      : 0;
+
+  // Calculate kills per match
+  const killsPerMatch =
+    player["Matches Played"] > 0
+      ? (player.kills / player["Matches Played"]).toFixed(1)
       : 0;
 
   row.innerHTML = `
@@ -167,23 +173,50 @@ function createPlayerRow(rank, player) {
                 <span class="player-name">${escapeHtml(
                   player["Player Name"]
                 )}</span>
-                <span class="mobile-stats">
-                    ${player["Matches Played"]}M • ${player.Wins}W • ${winRate}%
-                </span>
+                <div class="mobile-stats">
+                    <div class="stat-row">
+                        <span class="stat-icon">⚔️</span>
+                        <span class="stat-text">${player.kills} Kills</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-icon">🎯</span>
+                        <span class="stat-text">${player.Wins}W / ${
+    player["Matches lost"]
+  }L</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-icon">📊</span>
+                        <span class="stat-text">${winRate}% Win Rate</span>
+                    </div>
+                </div>
             </div>
         </td>
-        <td class="desktop-only">${player["Matches Played"]}</td>
-        <td class="desktop-only">
-            ${player.Wins}
-            <span class="win-rate">(${winRate}%)</span>
+        <td class="desktop-only stats-cell">
+            <span class="stat-value">${player.kills}</span>
+            <span class="stat-label">${killsPerMatch}/match</span>
         </td>
-        <td class="points-cell">${player.Points}</td>
+        <td class="desktop-only">${player["Matches Played"]}</td>
+        <td class="desktop-only wins-cell">
+            <span class="stat-highlight">${player.Wins}</span>
+        </td>
+        <td class="desktop-only lost-cell">
+            <span class="stat-lowlight">${player["Matches lost"]}</span>
+        </td>
+        <td class="desktop-only">
+            <div class="win-rate-bar">
+                <div class="win-rate-fill" style="width: ${winRate}%"></div>
+                <span class="win-rate-text">${winRate}%</span>
+            </div>
+        </td>
+        <td class="points-cell">
+            <span class="points-value">${player.Points}</span>
+            <span class="points-label">pts</span>
+        </td>
     `;
 
   return row;
 }
 
-// Get rank display with medals for top 3
 function getRankDisplay(rank) {
   switch (rank) {
     case 1:
@@ -207,7 +240,6 @@ function escapeHtml(unsafe) {
     .replace(/'/g, "&#039;");
 }
 
-// Update last updated time
 function updateLastUpdatedTime() {
   const now = new Date();
   const timeString = now.toLocaleTimeString("en-US", {
@@ -224,40 +256,62 @@ function updateLastUpdatedTime() {
   lastUpdatedElement.textContent = `${dateString} at ${timeString}`;
 }
 
-// Auto-refresh functionality
 function startAutoRefresh(intervalMinutes = 5) {
   setInterval(() => {
     loadLeaderboard();
   }, intervalMinutes * 60 * 1000);
 }
 
-// Demo data for testing - using your actual data format
+//this is mmy demo data in how the data will look like
 function loadDemoData() {
   const demoData = [
     {
       Rank: 1,
-      "Player Name": "samaan",
-      "Matches Played": 3,
-      Wins: 3,
-      Points: 100,
-    },
-    {
-      Rank: 3,
-      "Player Name": "vivek",
-      "Matches Played": 3,
-      Wins: 1,
-      Points: 21,
+      "Player Name": "Samaan",
+      kills: 3,
+      "Matches Played": 4,
+      "Matches lost": 1,
+      Wins: 2,
+      Points: 26,
     },
     {
       Rank: 2,
-      "Player Name": "sanjeet",
-      "Matches Played": 7,
-      Wins: 0,
-      Points: 12,
+      "Player Name": "Test subject",
+      kills: 4,
+      "Matches Played": 2,
+      "Matches lost": 1,
+      Wins: 1,
+      Points: 17,
+    },
+    {
+      Rank: 3,
+      "Player Name": "sam",
+      kills: 6,
+      "Matches Played": 10,
+      "Matches lost": 6,
+      Wins: 4,
+      Points: 69,
+    },
+    {
+      Rank: 4,
+      "Player Name": "saieel",
+      kills: 10,
+      "Matches Played": 4,
+      "Matches lost": 1,
+      Wins: 3,
+      Points: 48,
+    },
+    {
+      Rank: 5,
+      "Player Name": "purab",
+      kills: 13,
+      "Matches Played": 10,
+      "Matches lost": 5,
+      Wins: 5,
+      Points: 83,
     },
   ];
 
-  // Sort data by points (descending) and then by wins (descending)
   const sortedData = demoData.sort((a, b) => {
     if (b.Points !== a.Points) {
       return b.Points - a.Points;
@@ -270,18 +324,13 @@ function loadDemoData() {
   showLeaderboard();
 }
 
-// Initialize the application
 document.addEventListener("DOMContentLoaded", function () {
-  // Always try to load from Google Sheet first, fall back to demo data on error
   loadLeaderboard();
 
-  // Start auto-refresh every 5 minutes
   startAutoRefresh(5);
 });
 
-// Keyboard shortcuts
 document.addEventListener("keydown", function (event) {
-  // Press 'R' to refresh
   if (event.key === "r" || event.key === "R") {
     if (!event.ctrlKey && !event.metaKey) {
       event.preventDefault();
@@ -290,7 +339,26 @@ document.addEventListener("keydown", function (event) {
   }
 });
 
-// Add mobile stats styling
+// Go to Top Button functionality
+const goTopBtn = document.getElementById("goTopBtn");
+
+// Show/hide button based on scroll position
+window.addEventListener("scroll", function () {
+  if (window.pageYOffset > 300) {
+    goTopBtn.classList.add("visible");
+  } else {
+    goTopBtn.classList.remove("visible");
+  }
+});
+
+// Smooth scroll to top when button is clicked
+goTopBtn.addEventListener("click", function () {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+});
+
 const mobileStatsStyle = document.createElement("style");
 mobileStatsStyle.textContent = `
     .player-info {

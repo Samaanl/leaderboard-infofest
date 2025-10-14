@@ -1,13 +1,19 @@
 // Updated Google Apps Script code with CORS support
+// Excludes phone numbers from the response for privacy
 function doGet(e) {
   try {
     const sheet =
       SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sheet1");
     const rows = sheet.getDataRange().getValues();
     const headers = rows.shift();
-    const data = rows.map((r) =>
-      Object.fromEntries(r.map((v, i) => [headers[i], v]))
-    );
+
+    // Filter out phone numbers from the data
+    const data = rows.map((r) => {
+      const rowData = Object.fromEntries(r.map((v, i) => [headers[i], v]));
+      // Remove phone number field for privacy
+      delete rowData["phone number"];
+      return rowData;
+    });
 
     // Handle case where e or e.parameter might be undefined (when testing manually)
     const callback = e && e.parameter ? e.parameter.callback : null;
@@ -65,12 +71,15 @@ function testData() {
       SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sheet1");
     const rows = sheet.getDataRange().getValues();
     const headers = rows.shift();
-    const data = rows.map((r) =>
-      Object.fromEntries(r.map((v, i) => [headers[i], v]))
-    );
+    const data = rows.map((r) => {
+      const rowData = Object.fromEntries(r.map((v, i) => [headers[i], v]));
+      // Remove phone number field for privacy
+      delete rowData["phone number"];
+      return rowData;
+    });
 
     console.log("Headers found:", headers);
-    console.log("Data:", data);
+    console.log("Data (phone numbers excluded):", data);
     console.log("Number of rows:", data.length);
 
     return data;

@@ -262,6 +262,67 @@ body::before {
   font-size: 1.1rem;
 }
 
+/* New Statistics Styling */
+.stats-cell {
+  text-align: center;
+}
+
+.stat-value {
+  display: block;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #ffb300;
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.75rem;
+  color: #a0a9b8;
+  margin-top: 2px;
+}
+
+.wins-cell .stat-highlight {
+  font-weight: 700;
+  color: #00f5d4;
+  font-size: 1.1rem;
+}
+
+.lost-cell .stat-lowlight {
+  font-weight: 600;
+  color: #ff6b7a;
+  font-size: 1rem;
+}
+
+/* Win Rate Bar */
+.win-rate-bar {
+  position: relative;
+  width: 100%;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.win-rate-fill {
+  position: absolute;
+  height: 100%;
+  background: linear-gradient(90deg, #00f5d4, #00c9a7);
+  transition: width 0.5s ease;
+  border-radius: 12px;
+}
+
+.win-rate-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
 .error-message {
   display: flex;
   flex-direction: column;
@@ -319,10 +380,54 @@ body::before {
 
   .rank-cell {
     font-size: 1rem;
+    padding: 10px 6px !important;
+  }
+
+  .player-cell {
+    padding: 10px 8px !important;
   }
 
   .points-cell {
     font-size: 1rem;
+    padding: 10px 8px !important;
+  }
+
+  .mobile-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .stat-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+  }
+
+  .stat-icon {
+    font-size: 1rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .stat-text {
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1;
+  }
+
+  .points-value {
+    font-size: 1.2rem;
+    font-weight: 700;
+    display: block;
+  }
+
+  .points-label {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
 
   .refresh-btn {
@@ -399,4 +504,65 @@ body::before {
 
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(135deg, #ff6b7a, #ff4655);
+}
+
+/* Go to Top Button */
+.go-top-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #ff4655, #ff6b7a);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 15px rgba(255, 70, 85, 0.4);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.go-top-btn.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.go-top-btn:hover {
+  background: linear-gradient(135deg, #ff6b7a, #ff4655);
+  box-shadow: 0 6px 20px rgba(255, 70, 85, 0.6);
+  transform: translateY(-3px);
+}
+
+.go-top-btn:active {
+  transform: translateY(-1px);
+}
+
+/* Mobile optimizations for go-to-top button */
+@media (max-width: 768px) {
+  .go-top-btn {
+    bottom: 20px;
+    right: 20px;
+    width: 45px;
+    height: 45px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .go-top-btn {
+    bottom: 15px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+    font-size: 0.9rem;
+  }
 }
