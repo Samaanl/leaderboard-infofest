@@ -1,5 +1,5 @@
 const GOOGLE_SHEET_URL =
-  "https://script.google.com/macros/s/AKfycbwaSsuexs6ll05BQfEmoTiCqFWn_L-kyRx9XjtueCPvTovYcBkwysE-BLrMXR0jnI1e/exec";
+  "https://script.google.com/macros/s/AKfycbwaSsuexs6ll05BQfEmoTiCqFWn_L-kyRx9XjtueCPvTovYcBkwysE-BLrMXR0jnI1e/exec"; //this won't let me in trouble right?.... right????
 
 const loadingElement = document.getElementById("loading");
 const leaderboardElement = document.getElementById("leaderboard");
@@ -21,7 +21,7 @@ async function loadLeaderboard() {
 
       if (response.ok) {
         data = await response.json();
-        console.log("✅ Successfully loaded data from Google Sheets");
+        console.log("Successfully loaded data from Google Sheets");
       } else {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -58,10 +58,10 @@ async function loadLeaderboard() {
   } catch (error) {
     console.error("Error fetching leaderboard data:", error);
     console.log(
-      "🎮 Don't worry! Loading demo data so you can see the design..."
+      "Don't worry! Loading demo data so you can see the design..."
     );
     console.log(
-      "📋 To fix this: Either open index.html directly or deploy to a web server"
+      "To fix this: Either open index.html directly or deploy to a web server"
     );
 
     loadDemoData();
@@ -130,13 +130,12 @@ function populateLeaderboard(data) {
   let playersWithSameRank = 0;
 
   data.forEach((player, index) => {
-    // Handle tied rankings
+
     if (previousPoints !== null) {
       if (player.Points === previousPoints && player.Wins === previousWins) {
-        // Same rank as previous player (tie)
+        
         playersWithSameRank++;
       } else {
-        // Different score, advance rank
         currentRank += playersWithSameRank + 1;
         playersWithSameRank = 0;
       }
@@ -158,7 +157,7 @@ function createPlayerRow(rank, player) {
       ? Math.round((player.Wins / player["Matches Played"]) * 100)
       : 0;
 
-  // Calculate kills per match
+
   const killsPerMatch =
     player["Matches Played"] > 0
       ? (player.kills / player["Matches Played"]).toFixed(1)
@@ -230,7 +229,7 @@ function getRankDisplay(rank) {
   }
 }
 
-// Escape HTML to prevent XSS
+
 function escapeHtml(unsafe) {
   return unsafe
     .replace(/&/g, "&amp;")
@@ -262,7 +261,7 @@ function startAutoRefresh(intervalMinutes = 5) {
   }, intervalMinutes * 60 * 1000);
 }
 
-//this is mmy demo data in how the data will look like
+//demo dataaaaa
 function loadDemoData() {
   const demoData = [
     {
@@ -339,10 +338,10 @@ document.addEventListener("keydown", function (event) {
   }
 });
 
-// Go to Top Button functionality
+
 const goTopBtn = document.getElementById("goTopBtn");
 
-// Show/hide button based on scroll position
+
 window.addEventListener("scroll", function () {
   if (window.pageYOffset > 300) {
     goTopBtn.classList.add("visible");
@@ -351,7 +350,7 @@ window.addEventListener("scroll", function () {
   }
 });
 
-// Smooth scroll to top when button is clicked
+
 goTopBtn.addEventListener("click", function () {
   window.scrollTo({
     top: 0,
