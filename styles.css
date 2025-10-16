@@ -12,7 +12,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Animated background */
+
 body::before {
   content: "";
   position: fixed;
@@ -262,7 +262,7 @@ body::before {
   font-size: 1.1rem;
 }
 
-/* New Statistics Styling */
+
 .stats-cell {
   text-align: center;
 }
@@ -344,7 +344,7 @@ body::before {
   font-size: 0.9rem;
 }
 
-/* Mobile Responsiveness */
+
 @media (max-width: 768px) {
   .container {
     padding: 15px;
@@ -455,7 +455,7 @@ body::before {
   }
 }
 
-/* Animations */
+
 .leaderboard-table tbody tr {
   opacity: 0;
   animation: fadeInUp 0.6s ease forwards;
@@ -488,7 +488,7 @@ body::before {
   }
 }
 
-/* Scrollbar styling */
+
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -506,7 +506,7 @@ body::before {
   background: linear-gradient(135deg, #ff6b7a, #ff4655);
 }
 
-/* Go to Top Button */
+
 .go-top-btn {
   position: fixed;
   bottom: 30px;
@@ -546,7 +546,7 @@ body::before {
   transform: translateY(-1px);
 }
 
-/* Mobile optimizations for go-to-top button */
+
 @media (max-width: 768px) {
   .go-top-btn {
     bottom: 20px;
