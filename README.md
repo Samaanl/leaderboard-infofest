@@ -1,4 +1,4 @@
-# 🎮 Valorant Tournament Leaderboard
+# Valorant Tournament Leaderboard
 
 A responsive, real-time leaderboard for tracking Valorant tournament scores with Google Sheets integration.
 
@@ -8,7 +8,7 @@ A responsive, real-time leaderboard for tracking Valorant tournament scores with
 
 
 
-## 🚀 Live Demo
+## Live Demo
 
 🔗 **[View Live Leaderboard](https://leaderboard-infofest.vercel.app/)** 
 
@@ -18,7 +18,7 @@ A responsive, real-time leaderboard for tracking Valorant tournament scores with
 Rank | Player Name | phone number | kills | Matches Played | Matches lost | Wins | Points
 ```
 
-## 🛠️ Quick Setup
+## Quick Setup
 
 ### 1. Google Sheets Setup
 1. **Create a Google Sheet** with columns: `Rank | Player Name | phone number | kills | Matches Played | Matches lost | Wins | Points`
@@ -38,11 +38,11 @@ Deploy it Online!!
 
 Feel free to submit issues and enhancement requests!
 
-## 📄 License
+## License
 
 This project is open source and available under the MIT License.
 
-## 🏆 Acknowledgments
+## Acknowledgments
 
 - **Valorant** by Riot Games for design inspiration
 - **Google Sheets API** for real-time data integration
@@ -56,4 +56,4 @@ This project is open source and available under the MIT License.
 - Press **R** to manually refresh the leaderboard
 
 
-Enjoy your awesome Valorant leaderboard! 🎮✨
+Enjoy your awesome Valorant leaderboard!
